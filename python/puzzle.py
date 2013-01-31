@@ -52,19 +52,22 @@ class Puzzle (object):
     
     # @return TruthTable
     def getLockedTT(self):
-        return locked_tt
+        return self.locked_tt
     
     # @return ident
     def getLockedIdent(self):
-        return locked_id
+        return self.locked_id
     
     # @return PuzzleConfig
     def getPuzzleConfig(self):
-        return config
+        return self.config
     
     # @return WireContents
     def getGoalOutput(self):
-        return goal
+        return self.goal
+    
+    def getDeviceInput(self, ident):
+        return self.inputs[ident]
     
     # @return list(ident)
     def getAllIdents(self):
