@@ -11,6 +11,8 @@ class Component (object):
     # str(id) right - the component ident inputting on the right
     # boolean isInput - whether this Component is an input device in the circuit
     # long timestamp - when lastOut was last updated
+    #       * timestamp of 0: never updated
+    #       * timestamp of -1: is input device
     # WireContents lastOut - last computed output from this Component
     
     # Constructor
@@ -19,7 +21,7 @@ class Component (object):
         self.ident = ident
         self.renderinfo = renderinfo
         self.table = truthtable
-        self.timestamp = -1L
+        self.timestamp = 0L
         self.lastOut = wires.WireContents()
     
     def defineInputs(self, inleft, inright):
@@ -28,15 +30,23 @@ class Component (object):
         self.right = inright
         self.isInput = (inleft == None and inright == None)
     
+    # for permanent input devices only
+    def setPermanentInput(self, inp):
+        assert self.isInput
+        self.lastOut = inp
+        self.timestamp = -1L
+    
     def getLastOutput(self):
         return self.lastOut
     
     def setOutput(self, wire, ts):
+        assert not self.isInput
         self.timestamp = ts
         self.lastOut = wire
     
+    # if timestamp is -1, this is an input device and does not need to have its output updated
     def isOutputUpdated(self, ts):
-        return self.timestamp == ts
+        return self.timestamp == ts or self.timestamp == -1
     
     def getOutput(self, ts):
         return self.lastOut if self.isOutputUpdated(ts) else None
