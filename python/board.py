@@ -31,7 +31,7 @@ class Board (object):
         sidebar_tts = self.puzzle.getMovableTruthTablesShuffled(lock)
         for tt in sidebar_tts:
             newid = SIDEBAR_IDENT_PREFIX + str(sidebar_suffix)
-            sidebar_suffix++
+            sidebar_suffix += 1
             comp = component.Component(newid, tt, None) # TODO create render info
             sidebar.append(comp)
     
