@@ -1,6 +1,6 @@
 global TESTNUM
 TESTNUM = 4
-#temporary until we can put that in main class
+#TODO move that somewhere, it's a constant
 
 # Globals used:
 # TESTNUM
@@ -23,6 +23,12 @@ global WHITE, YELLOW, RED
 WHITE = State.WHITE
 YELLOW = State.YELLOW
 RED = State.RED
+
+# Get a new placeholder TruthTable.
+# @return TruthTable
+def TTplaceholder():
+    return TruthTable.placeholder()
+
 
 # A set of TESTNUM states, one for each tested input.
 # Mutable. Serializable.
@@ -55,18 +61,28 @@ class WireContents(object):
     def __iter__(self):
         return self.states.__iter__()
     
+    # Get a single value from this wire.
+    # @arg test - which test to get the value from
+    # @return State
     def getSingle(self, test):
         return self.__getitem__(test)
     
+    # Get all values on this wire.
+    # @return list(State)
+    def getAll(self):
+        return self.states
+    
+    # Set a single value on this wire.
+    # @arg test - which test to get the value from
+    # @arg val - the new State
     def setSingle(self, test, val):
         self.__setitem__(test, val)
     
+    # Set all values on this wire.
+    # @arg values - n-list of States
     def setAllState(self, values):
         assert(len(values) == TESTNUM)
         self.states = values
-    
-    def getAll(self):
-        return self.states
     
     def __delitem__():
         raise NotImplemented
@@ -108,24 +124,35 @@ class TruthTable (object):
     def __getitem__(self, key):
         return self.table[key[0]][key[1]]
     
+    # Get the result from these inputs.
+    # @arg left - State on the left
+    # @arg right - State on the right
+    # @return State
     def getResult(self, left, right):
         return self[left,right]
     
+    # Get the result WireContents given these WireContents.
+    # @arg left - WireContents on the left
+    # @arg right - WireContents on the right
+    # @return WireContents
     def getWireResult(self, left, right):
         assert(type(left) == type(right) == WireContents) #this check does work as intended
         return WireContents(self.table[left[i],right[i]] for i in TESTNUM)
     
+    # Get a copy of this TruthTable.
+    # @return TruthTable
     def clone(self):
         r = TruthTable(table)
         r._isPH = self._isPH
         return r
     
+    # Whether this TruthTable shall be considered a placeholder.
+    # @return boolean
     def isPlaceholder(self):
         return self._isPH
     
+    # Get a new placeholder TruthTable.
+    # @return TruthTable - copy of _placeholder
     def placeholder():
         return _placeholder.clone()
 
-#for external use
-def TTplaceholder():
-    return TruthTable.placeholder()

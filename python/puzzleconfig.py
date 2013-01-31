@@ -22,21 +22,28 @@ class PuzzleConfig (dict):
             v = kwargs[k]
             if v == None: continue
             assert len(v) == 2 #only two inputs
-            if v[0] not in names: raise ValueError("The identifier of "+ v[0] + " used in " + k + " was not defined.")
+            if v[0] not in self: raise ValueError("The identifier of "+ v[0] + " used in " + k + " was not defined.")
     
+    # Whether the specified ident is an input device.
+    # @return boolean
     def isInput(self, ident):
         return self[ident] == None
     
+    # If the specified ident is not an input device, i.e. its output is calculated.
+    # @return boolean
     def isCalculated(self, ident):
-        tmp = self[ident]
-        return type(tmp) == tuple and len(tmp) == 2
+        return self[ident] != None
     
-    # @return 2-tuple of idents
+    # Get the inputs to this device.
+    # If this is an input device, return (None, None).
+    # @return 2-tuple (ident,ident)
     def getInputs(self, ident):
         ret = self[ident]
         if ret == None: ret = (None, None)
         return ret
     
+    # Get all devices that have this device as an input.
+    # @return set(ident)
     def getUsage(self, ident):
         ret = set()
         for id2 in self:
@@ -45,13 +52,18 @@ class PuzzleConfig (dict):
                 ret.add(id2)
         return ret
     
+    # Whether the given ident is in this config.
+    # @return boolean
     def exists(self, ident):
         return ident in self
     
+    # The goal device.
+    # @return ident
     def getGoal(self):
         return self.goalId
     
-    # return all idents that are input devices
+    # All input devices in the circuit.
+    # @return set(ident)
     def getAllInputDevices(self):
         ret = set()
         for id2 in self:
