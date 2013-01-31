@@ -24,8 +24,7 @@ class Board (object):
         self.lock = lock
         self._init_sidebar()
         self._init_components()
-
-            
+    
     def _init_sidebar(self):
         self.sidebar = list()
         sidebar_tts = self.puzzle.getMovableTruthTablesShuffled(lock)
