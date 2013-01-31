@@ -19,10 +19,11 @@ def enum(*sequential, **named):
 # Is actually a number, so mutability does not matter.
 State = enum('WHITE', 'YELLOW', 'RED')
 
-global WHITE, YELLOW, RED
+global WHITE, YELLOW, RED, STATELIST
 WHITE = State.WHITE
 YELLOW = State.YELLOW
 RED = State.RED
+STATELIST = (WHITE, YELLOW, RED)
 
 # Get a new placeholder TruthTable.
 # @return TruthTable
@@ -107,15 +108,14 @@ class TruthTable (object):
     #   T
     
     # static vars
-    _placeholder = TruthTable( ((0,0,0), (0,0,0), (0,0,0)) )
-    _placeholder._isPH = True
+    # TruthTable _placeholder - truth table of all zeros, intended as placeholder
     
     # Constructor
     # initial values are MANDATORY.
     def __init__(self, values):
-        assert(len(values) == TESTNUM)
+        assert(len(values) == len(STATELIST))
         for row in values:
-            assert(len(row) == TESTNUM)
+            assert(len(row) == len(STATELIST))
             for i in row:
                 assert(WHITE <= i <= RED)
         self.table = values
@@ -155,4 +155,7 @@ class TruthTable (object):
     # @return TruthTable - copy of _placeholder
     def placeholder():
         return _placeholder.clone()
+
+TruthTable._placeholder = TruthTable( ((0,0,0), (0,0,0), (0,0,0)) )
+TruthTable._placeholder._isPH = True
 
