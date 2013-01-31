@@ -90,6 +90,10 @@ class TruthTable (object):
     #   F  [RW RY RR]]
     #   T
     
+    # static vars
+    _placeholder = TruthTable( ((0,0,0), (0,0,0), (0,0,0)) )
+    _placeholder._isPH = True
+    
     # Constructor
     # initial values are MANDATORY.
     def __init__(self, values):
@@ -99,6 +103,7 @@ class TruthTable (object):
             for i in row:
                 assert(WHITE <= i <= RED)
         self.table = values
+        self._isPH = False
     
     def __getitem__(self, key):
         return self.table[key[0]][key[1]]
@@ -109,5 +114,18 @@ class TruthTable (object):
     def getWireResult(self, left, right):
         assert(type(left) == type(right) == WireContents) #this check does work as intended
         return WireContents(self.table[left[i],right[i]] for i in TESTNUM)
+    
+    def clone(self):
+        r = TruthTable(table)
+        r._isPH = self._isPH
+        return r
+    
+    def isPlaceholder(self):
+        return self._isPH
+    
+    def placeholder():
+        return _placeholder.clone()
 
-
+#for external use
+def TTplaceholder():
+    return TruthTable.placeholder()
