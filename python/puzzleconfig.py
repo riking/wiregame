@@ -12,17 +12,16 @@ class PuzzleConfig (dict):
         assert(len(args) == 1)
         self.goalId = args[0]
         
+        # Super
+        super(PuzzleConfig, self).__init__(kwargs)
+        
         # Format Verification
-        names = list()
-        for k in kwargs:
-            names.append(k)
-        for k in kwargs:
+        names = self.keys()
+        for k in self:
             v = kwargs[k]
             if v == None: continue
             assert len(v) == 2 #only two inputs
             if v[0] not in names: raise ValueError("The identifier of "+ v[0] + " used in " + k + " was not defined.")
-        # Constructor
-        super(PuzzleConfig, self).__init__(kwargs)
     
     def isInput(self, ident):
         return self[ident] == None
@@ -38,6 +37,9 @@ class PuzzleConfig (dict):
             if ident in self[c]:
                 ret.add(c)
         return ret
+    
+    def exists(self, ident):
+        return ident in self
     
     def getGoal(self):
         return self.goalId
@@ -55,6 +57,6 @@ puzzle = PuzzleConfig('G',
 # Tests
 if __name__ == "__main__":
     print puzzle
-    print puzzle.getUsage('C')
-    print puzzle.getUsage('A')
-    print repr(puzzle.goalId)
+    print 'Usage of','B',puzzle.getUsage('B')
+    print 'Is input','B',puzzle.isInput('B')
+    print 'Goal',repr(puzzle.getGoal())
