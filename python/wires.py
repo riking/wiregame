@@ -94,17 +94,6 @@ class WireContents(object):
     def __contains__():
         raise NotImplemented
 
-    # implements Serializable.serialize()
-    def serialize(self):
-        tot = sum(self[m] * (3**m) for m in range(TESTNUM))
-        return str(tot) + ':'
-    
-    # implements Serializable.unserialize()
-    def unserialize(data):
-        ind = data.find(':')
-        num, newdat = data[:ind], data[ind+1:]
-        list()
-
 # A truth table. Maps inputs to outputs.
 # Immutable. Serializable.
 class TruthTable (object):
