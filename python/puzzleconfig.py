@@ -18,6 +18,7 @@ class PuzzleConfig (dict):
         # Format Verification
         names = self.keys()
         for k in self:
+            assert "SIDE_" not in k # reserved names for sidebar
             v = kwargs[k]
             if v == None: continue
             assert len(v) == 2 #only two inputs
