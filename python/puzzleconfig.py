@@ -39,10 +39,10 @@ class PuzzleConfig (dict):
     
     def getUsage(self, ident):
         ret = set()
-        for c in self:
-            if self[c] == None: continue
-            if ident in self[c]:
-                ret.add(c)
+        for id2 in self:
+            if self[id2] == None: continue
+            if ident in self[id2]:
+                ret.add(id2)
         return ret
     
     def exists(self, ident):
@@ -50,6 +50,14 @@ class PuzzleConfig (dict):
     
     def getGoal(self):
         return self.goalId
+    
+    # return all idents that are input devices
+    def getAllInputDevices(self):
+        ret = set()
+        for id2 in self:
+            if self[id2] == None:
+                ret.add(id2)
+        return ret
 
 # current default
 puzzle = PuzzleConfig('G',
