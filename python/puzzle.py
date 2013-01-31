@@ -8,6 +8,7 @@ import copy, random
 class Puzzle (object):
     # local vars
     # PuzzleConfig config
+    # dict(ident,WireContents) inputs - the inputs
     # WireContents goal - the desired output at the goal
     # list(TruthTable) allowed - the allowed truth tables
     # TruthTable extra - the extra truth table
@@ -15,8 +16,9 @@ class Puzzle (object):
     # str(id) locked_id - the component ident of the locked piece
     
     # Constructor
-    def __init__(self, config, goal, tables, extra, locked_tt, locked_id):
+    def __init__(self, config, inputs, goal, tables, extra, locked_tt, locked_id):
         self.config = config
+        self.inputs = inputs
         self.goal = goal
         self.allowed = tables
         self.extra = extra
