@@ -31,6 +31,12 @@ class PuzzleConfig (dict):
         tmp = self[ident]
         return type(tmp) == tuple and len(tmp) == 2
     
+    # @return 2-tuple of idents
+    def getInputs(self, ident):
+        ret = self[ident]
+        if ret == None: ret = (None, None)
+        return ret
+    
     def getUsage(self, ident):
         ret = set()
         for c in self:
