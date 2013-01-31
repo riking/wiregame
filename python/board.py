@@ -59,3 +59,15 @@ class Board (object):
     
     def getComponent(self, ident):
         return components[ident]
+    
+    # @return boolean - success
+    def swapTruthTables(self, identA, identB):
+        if self.lock:
+            lck = self.puzzle.getLockedIdent()
+            if lck == identA or lck == identB:
+                return False
+        compA, compB = self.getComponent(identA), self.getComponent(identB)
+        newTT_B, newTT_A = compA.getTruthTable(), compB.getTruthTable()
+        compA.setTruthTable(newTT_A)
+        compB.setTruthTable(newTT_B)
+        return True
