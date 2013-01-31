@@ -70,6 +70,13 @@ class PuzzleConfig (dict):
             if self[id2] == None:
                 ret.add(id2)
         return ret
+    
+    def getAllCompDevices(self):
+        ret = set()
+        for id2 in self:
+            if self[id2] != None:
+                ret.add(id2)
+        return ret
 
 # current default
 puzzle = PuzzleConfig('G',
